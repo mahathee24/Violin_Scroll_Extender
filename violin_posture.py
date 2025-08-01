@@ -31,11 +31,11 @@ def handle_ble(_, data):
     global scroll_status, scroll_height
     message = data.decode().strip()
     if message == "OK":
-        scroll_status = "Mounted ✅"
+        scroll_status = "Mounted "
     elif message == "ScrollLoose":
-        scroll_status = "Loose Scroll ❌"
+        scroll_status = "Loose Scroll "
     elif message == "ViolinTilted":
-        scroll_status = "Tilted Violin ⚠️"
+        scroll_status = "Tilted Violin "
     elif message.startswith("Height:"):
         scroll_height = message.split(":")[1].strip() + " cm"
 
@@ -105,10 +105,10 @@ async def main():
     try:
         async with BleakClient(BLE_ADDRESS) as client:
             await client.start_notify(CHAR_UUID, handle_ble)
-            print("✅ BLE Connected.")
+            print(" BLE Connected.")
             await posture_loop(client)
     except Exception as e:
-        print("⚠️ BLE Connection failed or not available. Running posture monitoring only.")
+        print(" BLE Connection failed or not available. Running posture monitoring only.")
         print(f"Reason: {e}")
         await posture_loop(None)
 
